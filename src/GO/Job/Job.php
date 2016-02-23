@@ -259,7 +259,7 @@ abstract class Job
         Filesystem::write($return, $output, $this->mode);
       }
     } else {
-      $return = exec($this->compiled);
+      throw new Exception("Only PHP callables supported");
     }
 
     if ($this->emails) {
