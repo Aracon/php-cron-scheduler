@@ -135,17 +135,6 @@ class Scheduler
   }
 
   /**
-   * Raw job
-   *
-   * @param string $command
-   * @return instance of GO\Job\Job
-   */
-  public function raw($command)
-  {
-    return $this->jobs[] = JobFactory::factory(\GO\Job\Raw::class, $command);
-  }
-
-  /**
    * Ping url
    *
    * @param string $url
