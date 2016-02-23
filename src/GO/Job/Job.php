@@ -81,6 +81,10 @@ abstract class Job
    */
   public $truthTest = true;
 
+  /**
+     * @var string
+     */
+    protected $lastExecutionFile;
 
   /**
    * Create a new instance of Job
@@ -206,6 +210,11 @@ abstract class Job
    */
   public function isDue()
   {
+    if ($this->lastExecutionFile && is_readable($this->lastExecutionFile)) {
+            $lastExecution = file_get_contents($this->lastExecutionFile);
+            $lastRunDate = $this->execution->getPreviousRunDate();
+            return $lastRunDate->getTimestamp() > $lastExecution && $this->truthTest === true;
+        }
     return $this->execution->isDue() && $this->truthTest === true;
   }
 
@@ -310,6 +319,9 @@ abstract class Job
    */
   public function setup(array $config)
   {
+    if (isset($config['lastExecutionFile'])) {
+            $this->lastExecutionFile = $config['lastExecutionFile'];
+        }
     if (isset($config['emailFrom'])) {
       $this->emailFrom = $config['emailFrom'];
     }
