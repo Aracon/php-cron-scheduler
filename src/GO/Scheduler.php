@@ -189,6 +189,12 @@ class Scheduler
         $this->executed[] = $job;
       }
     }
+    
+    if (isset($this->config['lastExecutionFile'])) {
+      $fh = fopen($this->config['lastExecutionFile'], 'w');
+      fwrite($fh, time());
+      fclose($fh);
+    }
 
     return $output;
   }
